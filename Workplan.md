@@ -1,3 +1,5 @@
+[link to Slack post](https://datascientest-int.slack.com/archives/C0588020Z46/p1684750913241519)
+
 # Steps in data processing and deadlines
 
 ## Step 0: Framing
