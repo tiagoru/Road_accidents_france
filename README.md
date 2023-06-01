@@ -1,4 +1,4 @@
-# Datasientest mar23_continuous_ds
+# Datascientest mar23_continuous_ds
 # Road accidents in France
 
 **Relevant training course:** Data Scientist
