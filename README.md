@@ -29,3 +29,4 @@ Bases de données annuelles des accidents corporels de la circulation routière 
 
 - a final report and associated GitHub.
 
+Link to document https://docs.google.com/document/d/1m2ibEY6n6zcnqqxuJWyTgvIjmhyGQADBCmZThVQnQpA/edit
