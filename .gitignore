@@ -1,0 +1,5 @@
+.virtual_documents/230612_raw_data_import.ipynb
+data/Copy (1) features_tmp.csv
+data/features_tmp.csv
+node_modules/*
+*.json
