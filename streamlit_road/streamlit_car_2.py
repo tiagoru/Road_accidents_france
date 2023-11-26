@@ -12,7 +12,7 @@ st.image(image, caption='')
 
 # load dataframe after cleaning
 
-df=pd.read_csv("231030_clean_table_for_analysis.csv", low_memory=False, header = 0, index_col=0, na_values='n/a')
+df=pd.read_csv("./data/231030_clean_table_for_analysis.csv", low_memory=False, header = 0, index_col=0, na_values='n/a')
 
 
 # creating pages in Streamlit 
