@@ -12,7 +12,7 @@ st.image(image, caption='')
 
 # load dataframe after cleaning
 
-df=pd.read_csv("./data/231030_clean_table_for_analysis.csv", low_memory=False, header = 0, index_col=0, na_values='n/a')
+df=pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header = 0, index_col=0, na_values='n/a')
 
 
 # creating pages in Streamlit 
@@ -35,8 +35,8 @@ if page == pages[1] :
     st.write("#### data set provide by the French goverment from 2005 to 2021")
     st.dataframe(df.describe())
 
-    if st.checkbox("Show NaN") :
-        st.dataframe(df.isna().sum())
+    if st.checkbox("Show data types") :
+        st.write(df.dtypes)
 
 
 
