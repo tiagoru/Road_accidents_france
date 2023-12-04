@@ -44,7 +44,7 @@ if page == pages[1] :
 # editing visualization of the data
 if page == pages[2] : 
     st.write("### DataVizualization")
-    image = Image.open('accidents per department.png')
+    image = Image.open('accidents_per_department.png')
     image_size = (1000, 400)
     st.image(image, width=image_size[0], caption='Accidents per Department')
       
