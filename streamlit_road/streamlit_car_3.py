@@ -47,7 +47,7 @@ elif page == "Exploration":
         image_size = (1000, 400)
         st.image(image, width=image_size[0], caption='')
 
-elif page == "Mapping":
+elif page == "Departments":
     st.title("Accident Mapping")
     image = Image.open('accidents_per_department.png')
     image_size = (1000, 400)
@@ -57,7 +57,10 @@ elif page == "Mapping":
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
-
+    st.write("")    
+    image = Image.open('days_week_heat.png')
+    image_size = (1000, 400)
+    st.image(image, width=image_size[0], caption='Accidents per Department')
     
 
 elif page == "Modelling":
