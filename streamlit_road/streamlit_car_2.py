@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
+import sys
 
 image = Image.open('france_road.jpg')
 
@@ -19,7 +20,7 @@ df=pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, 
 
 st.title("Road Accidents in France")
 st.sidebar.title("Table of contents")
-pages=["Project","Exploration", "DataVizualization", "Modelling"]
+pages=["Project","Exploration", "DataVizualization", "Modelling", "mapping"]
 page=st.sidebar.radio("Go to", pages)
 
 
@@ -87,3 +88,33 @@ if page == pages[3] :
         #image = Image.open('Matrix_XG.png')
         #image_size = (1000, 400)
         #st.image(image, width=image_size[0], caption='Confusion matrix of the XGboost model')
+if page == pages[4] : 
+    st.write("### mapping")
+    def displayMe(df, grouping_keys, departement = 750):
+ 
+ 
+ ## Withdrawing the global variables "’SelectedLabelsFor’+element" from the previous multiselects
+ ## we could do it another better way imo, but still...
+
+    #thismodule = sys.modules[__name__]
+ 
+ ## for Parisian departement, 
+ ## take the Selected Labels from the MultiSelect(s) widgets and filter on them.
+    df_mini = df[df[‘dep’]==departement]
+    for element in grouping_keys:
+    st.write(globals()[‘SelectedLabelsFor’+element])
+    df_mini = df_mini[  df_mini[element].isin(getattr(thismodule, ‘SelectedLabelsFor’+element)) ]## Create a plot to display the Map.
+    fig, ax = plt.subplots(figsize=(14,7), nrows=1, ncols=1)
+    for dataset_name, dataset in df_mini.groupby(grouping_keys):
+    ax.plot(dataset.long, dataset.lat, marker=’o’, linestyle=’’, ms=6, label=dataset_name)
+    ax.legend()
+    the_plot_map.pyplot(plt)  ## important: to display in the Streamlit app a matplotlib.pyplot figure, 
+  ## we will create later on a placeholder the_plot_map = st.pyplot(plt)
+  ## This plot will be filled upon execution of the previous line 
+  ## Create a plot to display other stuff...
+    ig, (ax1,ax2) = plt.subplots(figsize=(14,3), nrows=1, ncols=2)
+    df_mini.groupby(grouping_keys).size().unstack().plot(kind=’bar’, stacked=True, ax=ax1, title="In Paris") 
+    df.groupby(grouping_keys).size().unstack().plot(kind=’bar’, stacked=True, ax=ax2, title="In France")
+    the_plot_bar.pyplot(plt) ## important: to display in the Streamlit app
+    
+    
