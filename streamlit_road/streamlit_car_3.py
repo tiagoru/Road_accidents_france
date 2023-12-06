@@ -10,7 +10,7 @@ data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=Fal
 
 # Create the pages
 st.sidebar.title("Navigation")
-page = st.sidebar.selectbox("Page", ["Project", "Exploration", "Departments", "DataVizualization", "Modelling","Conclusions"])
+page = st.sidebar.selectbox("Page", ["Project", "Exploration", "number of victims", "DataVizualization", "Modelling","Conclusions"])
 
 # Create a list of figures
 # Create a list of figures
@@ -60,7 +60,7 @@ elif page == "Exploration":
         image_size = (1000, 400)
         st.image(image, width=image_size[0], caption='')
 
-elif page == "Departments":
+elif page == "number of victims":
 
 
     # Create a select box to choose which figure to display
@@ -68,22 +68,25 @@ elif page == "Departments":
     #st.title("Menu of Figures")
 
     # Create a menu to choose which figure to display
-    selected_figure = st.selectbox("Choose a figure", ["departments", "correlation", "weather"])
+    selected_figure = st.selectbox("Choose a figure", ["Unscathed", "Light Injuries", "Hospitalized","Killed"])
     # If a figure was selected, display it
     if selected_figure:
-        if selected_figure == "departments":
-            image = Image.open('accidents_per_department.png')
+        if selected_figure == "Unscathed":
+            image = Image.open('acc_per_uns.png')
             image_size = (1000, 400)
-            st.image(image, width=image_size[0], caption='Accidents per Department')
-        elif selected_figure == "correlation":
-            image = Image.open('correlation.png')
+            st.image(image, width=image_size[0], caption='Unscathed')
+        elif selected_figure == "Light Injuries":
+            image = Image.open('acc_per_light.png')
             image_size = (1000, 400)
-            st.image(image, width=image_size[0], caption='corr')
-        elif selected_figure == "weather":
-            image = Image.open('exploratory_1.png')
+            st.image(image, width=image_size[0], caption='Light Injuries')
+        elif selected_figure == "Hospitalized":
+            image = Image.open('acc_per_hosp.png')
             image_size = (1000, 400)
-            st.image(image, width=image_size[0], caption='corr')
-
+            st.image(image, width=image_size[0], caption='Hospitalized')
+        elif selected_figure == "Killed":
+            image = Image.open('acc_per_kill.png')
+            image_size = (1000, 400)
+            st.image(image, width=image_size[0], caption='Killed')
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
