@@ -4,12 +4,21 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image
 
+
 # Load and preprocess data outside of the Streamlit application
 data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
 
 # Create the pages
 st.sidebar.title("Navigation")
 page = st.sidebar.selectbox("Page", ["Project", "Exploration", "Departments", "DataVizualization", "Modelling","Conclusions"])
+
+# Create a list of figures
+# Create a list of figures
+figures = [
+    {"name": "departments", "image": "accidents_per_department.png"},
+    {"name": "correlation", "image": "correlation.png"},
+    {"name": "weather", "image": "exploratory_1.png"},
+]
 
 if page == "Project":
     image = Image.open('france_road.jpg')
@@ -34,26 +43,47 @@ elif page == "Exploration":
     st.title("Data Exploration")
 
     # Show slides of figures using a slider
-    figure_index = st.slider('Figure Index', min_value=1, max_value=2, value=1)
+    figure_index = st.slider('Figure Index', min_value=1, max_value=3, value=1)
 
     processed_data = st.cache(allow_output_mutation=True)(lambda: processed_data)
 
     if figure_index == 1:
+        image = Image.open('Missing_values.png')
+        image_size = (1000, 400)
+        st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
+    elif figure_index == 2:
         image = Image.open('exploratory_1.png')
         image_size = (1000, 400)
         st.image(image, width=image_size[0], caption='')
-    elif figure_index == 2:
+    elif figure_index == 3:
         image = Image.open('exploratory_2.png')
         image_size = (1000, 400)
         st.image(image, width=image_size[0], caption='')
 
 elif page == "Departments":
-    st.title("Accident Mapping")
-    image = Image.open('accidents_per_department.png')
-    image_size = (1000, 400)
-    st.image(image, width=image_size[0], caption='')
 
-    
+
+    # Create a select box to choose which figure to display
+    #selected_figure = st.selectbox("Choose a figure", figures, index=0)
+    #st.title("Menu of Figures")
+
+    # Create a menu to choose which figure to display
+    selected_figure = st.selectbox("Choose a figure", ["departments", "correlation", "weather"])
+    # If a figure was selected, display it
+    if selected_figure:
+        if selected_figure == "departments":
+            image = Image.open('accidents_per_department.png')
+            image_size = (1000, 400)
+            st.image(image, width=image_size[0], caption='Accidents per Department')
+        elif selected_figure == "correlation":
+            image = Image.open('correlation.png')
+            image_size = (1000, 400)
+            st.image(image, width=image_size[0], caption='corr')
+        elif selected_figure == "weather":
+            image = Image.open('exploratory_1.png')
+            image_size = (1000, 400)
+            st.image(image, width=image_size[0], caption='corr')
+
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
@@ -70,7 +100,7 @@ elif page == "Modelling":
     if st.checkbox("Show XGboost model") :
         st.write("### XGboost modelling results")
         image = Image.open('Matrix_XG.png')
-        #image_size = (1000, 400)
+        image_size = (1000, 400)
         st.image(image, width=image_size[0], caption='Confusion matrix of the XGboost model')
     if st.checkbox("Show Decision tree model") :
         st.write("### teste")
@@ -84,7 +114,7 @@ elif page == "Modelling":
         #st.image(image, width=image_size[0], caption='Confusion matrix of the XGboost model')
    
     st.markdown("""
-        **Machine Learning Application:** We can use machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
+        **Machine Learning Application:** We  used machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
     """)
 elif page == "Conclusion":
     st.title("Conclusion")
