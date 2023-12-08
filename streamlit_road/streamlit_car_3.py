@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from PIL import Image
 
 
@@ -45,38 +43,33 @@ elif page == "Exploration":
                 it consist of 4 different files that after some data manipulation(merging and cleaning) became a dataframe of 2.509.598 rows and 60 colunns, a total of 1.1 Gb of data.  """)
     st.markdown(""" Data exploration includes some examples of the data, before we choose the target variable.""" )
 
+    # Create a menu to choose which figure to display
+    selected_figure = st.selectbox("Choose a figure", ["Missing Values", "Data description", "Type of Accidents","Variables correlations"])
 
-    # Show slides of figures using a slider
-    figure_index = st.slider('Figure Index', min_value=1, max_value=4, value=1)
-
-    processed_data = st.cache(allow_output_mutation=True)(lambda: processed_data)
-
-    if figure_index == 1:
-        st.markdown(""" Figure 1 Show the number of missing values per variables""")
-        image = Image.open('Missing_values.png')
-        image_size = (1000, 400)
-        st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
-    elif figure_index == 2:
-        st.markdown(""" Table 1, shows the data description of the dataframe""")
-        st.table(data.describe())
-      
-
+  
+    if selected_figure:
+        if selected_figure == "Missing Values":
+            st.markdown(""" Figure 1 Show the number of missing values per variables""")
+            image = Image.open('Missing_values.png')
+            image_size = (1000, 400)
+            st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
         
-        #image = Image.open('exploratory_1.png')
-        #image_size = (1000, 400)
-        #st.image(image, width=image_size[0], caption='')
-    elif figure_index == 3:
-        st.markdown(""" Figure 2 Shows the percentage types of gravity of the accidents distributed in 4 different categories in France""")
-        image = Image.open('acc_types.png')
-        image_size = (500, 200)
-        st.image(image, width=image_size[0], caption='')
+        elif selected_figure == "Data description":
+            st.markdown(""" Table 1, shows the data description of the dataframe""")
+            st.table(data.describe())
+      
+        elif selected_figure == "Type of Accidents":
+            st.markdown(""" Figure 2 Shows the percentage types of gravity of the accidents distributed in 4 different categories in France""")
+            image = Image.open('acc_types.png')
+            image_size = (500, 200)
+            st.image(image, width=image_size[0], caption='') 
 
-    elif figure_index == 4:
-        st.markdown(""" Figure 3 Shows the correlations between the numerics variables""")
-        image = Image.open('corr_raw.png')
-        image_size = (500, 200)
-        st.image(image, width=image_size[0], caption='')
-
+        elif selected_figure == "Variables correlations":
+            st.markdown(""" Figure 3 Shows the correlations between the numerics variables""")
+            image = Image.open('corr_raw.png')
+            image_size = (500, 200)
+            st.image(image, width=image_size[0], caption='')
+        
 elif page == "Number of victims":
     st.markdown(""" The figures in the menu below, shows the distribution of victims of accidents in each type per year""")
     # Create a menu to choose which figure to display
