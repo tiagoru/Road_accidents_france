@@ -3,12 +3,9 @@ import pandas as pd
 from PIL import Image
 
 
-# Load and preprocess data outside of the Streamlit application
-#data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
-
 # Create the pages
-st.sidebar.title("Navigation")
-page = st.sidebar.selectbox("Page", ["Project", "Exploration", "Number of victims", "DataVizualization", "Modelling","Conclusions"])
+st.sidebar.title("Navigation Menu")
+page = st.sidebar.selectbox("Page", ["Project", "Data Exploration", "Number of victims", "DataVizualization", "Modelling","Conclusions"])
 
 # Create a list of figures
 # Create a list of figures
@@ -22,14 +19,15 @@ if page == "Project":
     image = Image.open('france_road.jpg')
 
     st.image(image, caption='')
-    st.title("Project: Road Accidents in France")
+    st.title("Project: Car Accidents in France")
     st.markdown("""
         According to the National Road Safety Observatory (ONSR) in France, in the year 2021,
-         there were 560,666 road accidents in France. This represents a 4.1% increase from the number of accidents recorded in 2020.
-         Of these accidents, 100,086 occurred in the metropolitan area of France, representing 18.3% of all accidents in the country. The number of fatalities in 2021 was 3,336, while the number of serious injuries was 74,414.
+         there were 560.666 road accidents in France. This represents a 4.1% increase from the number of accidents recorded in 2020.
+         Of these accidents, 100.086 occurred in the metropolitan area of France, representing 18.3% of all accidents in the country. The number of fatalities in 2021 was 3.336, while the number of serious injuries was 74.414.
         Based on that we want to predict the number of severe accidents (Hospitalized and Deaths).
-        Data used in this project was from 2005 to 2018 in order to predict the values for 2019 to 2020 """)
-
+        Data used in this project was from 2005 to 2018 in order to predict the values for 2019 to 2020* """)
+    link1 = "https://datascientest.com/"
+    st.markdown(f' This is the final project for the DATA SCIENCE course at "[datascientest]({link1})."')
     st.markdown("""
         **Aim:** To optimize three classification models with the best overall performances for predicting severe accidents (at least one hospitalized or killed person in an accident versus only slightly or non-injured persons), and then calibrate, evaluate and interpret all three models.
     """)
@@ -37,14 +35,16 @@ if page == "Project":
         **Authors:** Johanna, Tiago, Tobias
     """)
 
-elif page == "Exploration":
+elif page == "Data Exploration":
     st.title("Data Exploration")
-    st.markdown("""The data used came from the French Goverment website: https://www.data.gouv.fr/en/datasets/bases-de-donnees-annuelles-des-accidents-corporels-de-la-circulation-routiere-annees-de-2005-a-2022/#community-discussions
-                it consist of 4 different files that after some data manipulation(merging and cleaning) became a dataframe of 2.509.598 rows and 60 colunns, a total of 1.1 Gb of data.  """)
-    st.markdown(""" Data exploration includes some examples of the data, before we choose the target variable.""" )
+    link2 = "https://www.data.gouv.fr/en/datasets/bases-de-donnees-annuelles-des-accidents-corporels-de-la-circulation-routiere-annees-de-2005-a-2022/#community-discussions"
+    st.markdown(f'The data was downloaded from the French Government website: "[link]({link2})"')
+    st.markdown("""It consists of 4 different files that contain information about accidents in France, related 
+                to place, time,conditions, type of vehicle, weather, type of accidents and so on. After data manipulation (merging and cleaning), the datframe was reduceed to 2,509,598 rows and 60 columns, totaling 1.1 GB of data.""")
+    st.markdown("""Data exploration includes some examples of the data before we choose the target variable.""")    
 
     # Create a menu to choose which figure to display
-    selected_figure = st.selectbox("Choose a figure", ["Missing Values", "Data description", "Type of Accidents","Variables correlations"])
+    selected_figure = st.selectbox("Choose a figure", ["Missing Values", "Data description", "Type of Accidents","Weather","Variables correlations"])
 
   
     if selected_figure:
@@ -61,15 +61,21 @@ elif page == "Exploration":
             st.table(data.describe())
       
         elif selected_figure == "Type of Accidents":
-            st.markdown(""" Figure 2 Shows the percentage types of gravity of the accidents distributed in 4 different categories in France""")
+            st.markdown(""" Figure 2 Shows the percentage types of the accidents gravity distributed in 4 different categories in France""")
             image = Image.open('acc_types.png')
-            image_size = (500, 200)
+            image_size = (600, 300)
             st.image(image, width=image_size[0], caption='') 
 
+        elif selected_figure == "Weather":
+            st.markdown(""" Figure 3 Shows the weather conditions""")
+            image = Image.open('weather.png')
+            image_size = (1000, 500)
+            st.image(image, width=image_size[0], caption='')
+
         elif selected_figure == "Variables correlations":
-            st.markdown(""" Figure 3 Shows the correlations between the numerics variables""")
+            st.markdown(""" Figure 4 Shows the correlations between the numerics variables""")
             image = Image.open('corr_raw.png')
-            image_size = (500, 200)
+            image_size = (1000, 500)
             st.image(image, width=image_size[0], caption='')
         
 elif page == "Number of victims":
@@ -97,9 +103,12 @@ elif page == "Number of victims":
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
-    st.markdown(""" Based on the distribution of the data and the previus analysis, the types of accidents were merged
-                in 2 categories ( severe(hospitalized + killed) and non severe(Unscathed + Light injuries)), as target variables for our prediction model.
-                this choice was made in order to balance the distribution of the target variable.
+    st.markdown(""" 
+                Based on the distribution of the data and the previus analysis, the types of accidents were merged
+                in 2 categories as a target variables for our prediction model:\n
+                1- severe(hospitalized + killed)\n
+                2- non severe(Unscathed + Light injuries)\n
+                This choice was made in order to balance the distribution of the target variable.
                 The figures in the menu below shows the data visualization for the target variable""")
       # Create a menu to choose which figure to display
     selected_figure = st.selectbox("Choose a figure", ["Distribution by day and hour", "Accidentes per hour", "Vehicles types","Accidents per department","Correlations with target variable"])
@@ -108,7 +117,7 @@ elif page == "DataVizualization":
         if selected_figure == "Distribution by day and hour":
             st.write("Distribution of severe accidents by weekday and hour")
             image = Image.open('days_week_heat.png')
-            image_size = (500, 200)
+            image_size = (1000, 500)
             st.image(image, width=image_size[0], caption='')
         elif selected_figure == "Accidentes per hour":
             image = Image.open('accidents_per_hour.png')
@@ -116,15 +125,15 @@ elif page == "DataVizualization":
             st.image(image, width=image_size[0], caption='')
         elif selected_figure == "Vehicles types":
             image = Image.open('distri_vehi.png')
-            image_size = (500, 200)
+            image_size = (800, 400)
             st.image(image, width=image_size[0], caption='')
         elif selected_figure == "Accidents per department":
-            image = Image.open('accidents_per_department.png')
-            image_size = (900, 400)
+            image = Image.open('acc_dep_top20.png')
+            image_size = (1000, 500)
             st.image(image, width=image_size[0], caption='')
         elif selected_figure == "Correlations with target variable":
             image = Image.open('correlation.png')
-            image_size = (500, 200)
+            image_size = (1000, 400)
             st.image(image, width=image_size[0], caption='')
 elif page == "Modelling":
     st.title("Accident Modelling")
@@ -134,8 +143,8 @@ elif page == "Modelling":
                 which encodes the severity of the accidents in four classes. 
                 The classes are 1: unscathed, 2: killed, 3: hospitalized, and 4: light injured. 
                 In principle, this is a multi-class classification problem. 
-                During the project, the classes 1+4 and 2+3 were encoded to 0: non-severe and 1: severe, stored in severe.
-                 Finally, the multiclass model was reduced to a binary class model.""")
+                During the project, the classes 1+4 and 2+3 were encoded:
+                0: non-severe and 1: severe. This new encode was stored as new target varaible in our dataframe.Finally, the multiclass model was reduced to a binary class model for analysis.""")
 
     selected_figure = st.selectbox("Choose a Model", ["Decision Tree", "Random Forest", "XGBoost"])
     # If a figure was selected, display it
@@ -163,5 +172,16 @@ elif page == "Modelling":
  
         #st.markdown("""**Machine Learning Application:** We  used machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
         #            """)
-elif page == "Conclusion":
-    st.title("Conclusion")
+elif page == "Conclusions":
+    st.title("Conclusion: Road Accidents in France")
+    st.markdown("""
+        The models were able to predict the number of accidents. 
+        It is important to note that the XGBoost model had a performance of 83% of true positive predictions for the most severe class compared to the other two machine learning models.
+        This provides a reliable result for the purpose of this project.
+        """)
+    st.markdown(""" In the future the model could be trained on data about the weather, road conditions, and traffic patterns.
+""")
+    image = Image.open('future_road.png')
+
+    st.image(image, caption='')
+
