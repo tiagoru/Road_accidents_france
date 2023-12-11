@@ -4,7 +4,7 @@ from PIL import Image
 
 
 # Load and preprocess data outside of the Streamlit application
-data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
+#data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
 
 # Create the pages
 st.sidebar.title("Navigation")
@@ -56,6 +56,8 @@ elif page == "Exploration":
         
         elif selected_figure == "Data description":
             st.markdown(""" Table 1, shows the data description of the dataframe""")
+            # Load and preprocess data outside of the Streamlit application
+            data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
             st.table(data.describe())
       
         elif selected_figure == "Type of Accidents":
