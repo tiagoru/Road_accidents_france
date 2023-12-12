@@ -3,3 +3,4 @@ data/Copy (1) features_tmp.csv
 data/features_tmp.csv
 node_modules/*
 *.json
+.idea/*
