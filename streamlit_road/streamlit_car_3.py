@@ -59,38 +59,38 @@ elif page == "Data Exploration":
         if selected_figure == "Missing Values":
             st.markdown(""" Figure 1 Show the number of missing values per variables""")
             image = Image.open('missing_values.png')
-            image_size = (1000, 400)
-            st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
+            #image_size = (1000, 400)
+            st.image(image, caption='percentage of missing values in the dataframe variables', use_column_width = 'auto')#width=image_size[0],
         
         elif selected_figure == "Data description":
             st.markdown(""" Table 1, shows the data description of the dataframe (subsample of ~1% of the dataframe)""")
             # Load and preprocess data outside of the Streamlit application
-            n=10000
+            n=100
             data = pd.read_csv("../data/231030_clean_table_for_analysis.csv",
                                low_memory=False,
                                header=0,
                                index_col=0,
                                na_values='n/a',
                                skiprows=lambda i: i % n != 0)
-            st.table(data.describe())
+            st.dataframe(data.describe())
       
         elif selected_figure == "Type of Accidents":
             st.markdown(""" Figure 2 Shows the percentage types of the accidents gravity distributed in 4 different categories in France""")
             image = Image.open('acc_types.png')
-            image_size = (600, 300)
-            st.image(image, width=image_size[0], caption='') 
+            #image_size = (600, 300)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
 
         elif selected_figure == "Weather":
             st.markdown(""" Figure 3 Shows the weather conditions""")
             image = Image.open('weather.png')
-            image_size = (1000, 500)
-            st.image(image, width=image_size[0], caption='')
+            #image_size = (1000, 500)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
 
         elif selected_figure == "Variables correlations":
             st.markdown(""" Figure 4 Shows the correlations between the numerics variables""")
             image = Image.open('corr_raw.png')
-            image_size = (1000, 500)
-            st.image(image, width=image_size[0], caption='')
+            #image_size = (1000, 500)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         
 elif page == "Number of victims":
     st.markdown(""" The figures in the menu below, shows the distribution of victims of accidents in each type per year""")
@@ -100,20 +100,20 @@ elif page == "Number of victims":
     if selected_figure:
         if selected_figure == "Unscathed":
             image = Image.open('acc_per_uns.png')
-            image_size = (500, 200)
-            st.image(image, width=image_size[0], caption='Unscathed')
+            # image_size = (500, 200)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='Unscathed')
         elif selected_figure == "Light Injuries":
             image = Image.open('acc_per_light.png')
-            image_size = (500, 200)
-            st.image(image, width=image_size[0], caption='Light Injuries')
+            #image_size = (500, 200)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='Light Injuries')
         elif selected_figure == "Hospitalized":
             image = Image.open('acc_per_hosp.png')
-            image_size = (500, 200)
-            st.image(image, width=image_size[0], caption='Hospitalized')
+            #image_size = (500, 200)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='Hospitalized')
         elif selected_figure == "Killed":
             image = Image.open('acc_per_kill.png')
-            image_size = (500, 200)
-            st.image(image, width=image_size[0], caption='Killed')
+            #image_size = (500, 200)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='Killed')
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
@@ -136,24 +136,24 @@ elif page == "DataVizualization":
         if selected_figure == "Accidentes per hour":
             st.write("Distribution of severe accidents by weekday and hour")
             image = Image.open('accidents_per_hour.png')
-            image_size = (500, 200)
-            st.image(image, width=image_size[0], caption='')
+            # image_size = (500, 200)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         elif selected_figure == "Distribution by day and hour":
             image = Image.open('days_week_heat.png')
-            image_size = (1000, 500)
-            st.image(image, width=image_size[0], caption='')
+            # image_size = (1000, 500)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         elif selected_figure == "Vehicles types":
             image = Image.open('distri_vehi.png')
-            image_size = (800, 400)
-            st.image(image, width=image_size[0], caption='')
+            # image_size = (800, 400)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         elif selected_figure == "Accidents per department":
             image = Image.open('acc_dep_top20.png')
-            image_size = (1000, 500)
-            st.image(image, width=image_size[0], caption='')
+            # image_size = (1000, 500)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         elif selected_figure == "Correlations with target variable":
             image = Image.open('correlation.png')
-            image_size = (1000, 400)
-            st.image(image, width=image_size[0], caption='')
+            # image_size = (1000, 400)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
 elif page == "Modelling":
     st.title("Accident Modelling")
     st.markdown("""
@@ -198,20 +198,22 @@ elif page == "Modelling":
  
     """)
 
-    selected_figure = st.selectbox("Choose a Model to show the results", ["Decision Tree", "Random Forest", "XGBoost"])
+    selected_figure = st.selectbox("Choose a Model to show the results", ["Decision Tree", "Random Forest", "XGBoost", "Model comparison"])
     # If a figure was selected, display it
     if selected_figure:
         if selected_figure == "Decision Tree":
             st.write("Decision Tree")
-            st.markdown("""Decision Tree Classifier was chosen because of the high explainability and also due to the fact that the models are relatively simple to set up and train.
-                         In addition to that, the performance of these models is also very good.
-                         In some cases, Decision Trees tend to overfit, but this problem can be eliminated with GridSearchCV technique""")
+            st.markdown("""Decision Tree Classifier was chosen because of the high explainability and also due to the
+            fact that the models are relatively simple to set up and train.
+            In addition to that, the performance of these models is also very good.
+            In some cases, Decision Trees tend to overfit, but this problem can be eliminated with GridSearchCV technique
+            """)
             #need to include the result of the models and the metrics 
             
             
         elif selected_figure == "Random Forest":
             st.write("Random Forest")
-            st.markdown("""Random Forest was chosen because it combines the predictions of multiple individual decision trees to make a final prediction.
+            st.markdown("""Random Forest was chosen because it combines the predictions of multiple individual decision rees to make a final prediction.
                          This ensemble approach tends to provide more accurate and robust predictions compared to a single decision tree""")
            #need to include the result of the models and the metrics 
         elif selected_figure == "XGBoost":
@@ -288,6 +290,51 @@ elif page == "Modelling":
             - 29 other features had only a low impact on the model
 
             """)
+
+        elif selected_figure == "Model comparison":
+            st.write("### Model comparison")
+
+            st.markdown("""
+            In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
+            without further encoding as a multiclass model. 
+            Table 1 lists the performance metrics for the XGBoost and RF models.
+                       
+            Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
+            """)
+
+            data = pd.read_csv('./modelling_results_1.csv', na_values="NA")
+            st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
+
+            st.markdown("""
+            - Results were not satisfactory
+            - Random forest performed best in all metrics accept *Precision*
+            - Decision Tree did not converge (stopped after 6 hours of run)
+            - Class `unscathed` is highly biasing the results (Figure 1)
+                       
+            """)
+
+            image = Image.open('./xgboost_confusion_matrix_2.png')
+            st.image(image, use_column_width='auto')
+
+            st.markdown("""
+            Figure 1: Confusion matrix of the XGBoost model using the `grav` variable as a target
+            
+            Therefore, the target variable `grav` was encoded to a binary variable `severe` and all three models
+            were rerun using `severe` as a target.
+            The modelling result are listed in Table 2.
+            
+            Table 2: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
+        
+            """)
+            data = pd.read_csv('./modelling_results_2.csv')
+            st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
+
+            st.markdown("""
+                     - The performance of all three models increased.
+                     - Decision Tree did also converge on the binary model.
+                     - The models are quite comparable, while the XGBoost model performed best.
+
+                     """)
 
         #st.markdown("""**Machine Learning Application:** We  used machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
         #            """)
