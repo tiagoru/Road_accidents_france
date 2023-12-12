@@ -16,7 +16,7 @@ figures = [
 ]
 
 if page == "Project":
-    image = Image.open('france_road.jpg')
+    image = Image.open('france_road.png')
 
     st.image(image, caption='')
     st.title("Project: Car Accidents in France")
