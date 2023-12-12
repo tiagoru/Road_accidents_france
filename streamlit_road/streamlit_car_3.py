@@ -40,7 +40,9 @@ elif page == "Data Exploration":
     link2 = "https://www.data.gouv.fr/en/datasets/bases-de-donnees-annuelles-des-accidents-corporels-de-la-circulation-routiere-annees-de-2005-a-2022/#community-discussions"
     st.markdown(f'The data was downloaded from the French Government website: "[link]({link2})"')
     st.markdown("""It consists of 4 different files that contain information about accidents in France, related 
-                to place, time,conditions, type of vehicle, weather, type of accidents and so on. After data manipulation (merging and cleaning), the datframe was reduceed to 2,509,598 rows and 60 columns, totaling 1.1 GB of data.""")
+                to place, time,conditions, type of vehicle, weather, type of accidents and so on.
+                After data manipulation (merging and cleaning), the datframe was reduceed to 2,421,684 rows and 60 
+                columns, totaling 1.1 GB of data.""")
     st.markdown("""Data exploration includes some examples of the data before we choose the target variable.""")    
 
     # Create a menu to choose which figure to display
@@ -55,9 +57,15 @@ elif page == "Data Exploration":
             st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
         
         elif selected_figure == "Data description":
-            st.markdown(""" Table 1, shows the data description of the dataframe""")
+            st.markdown(""" Table 1, shows the data description of the dataframe (subsample of ~1% of the dataframe)""")
             # Load and preprocess data outside of the Streamlit application
-            data = pd.read_csv("../data/231030_clean_table_for_analysis.csv", low_memory=False, header=0, index_col=0, na_values='n/a')
+            n=10000
+            data = pd.read_csv("../data/231030_clean_table_for_analysis.csv",
+                               low_memory=False,
+                               header=0,
+                               index_col=0,
+                               na_values='n/a',
+                               skiprows=lambda i: i % n != 0)
             st.table(data.describe())
       
         elif selected_figure == "Type of Accidents":
