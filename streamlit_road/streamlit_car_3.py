@@ -117,15 +117,18 @@ elif page == "Number of victims":
 
 elif page == "DataVizualization":
     st.title("Data Visualization")
-    st.markdown(""" 
-                Based on the distribution of the data and the previus analysis, the types of accidents were merged
-                in 2 categories as a target variables for our prediction model:\n
+    st.markdown("""
+    The pre-analysis of the data unravelled bad modelling performances with the multi-class target `grav`
+    (data not shown).
+    
+    The variable `grav` was merged to a binary variable `severe` based on the distribution of the data:
+         
+    - 0: severe (hospitalized + killed)
+    - 1: non severe (unscathed + light injuries)
                 
-                - 1: severe(hospitalized + killed)
-                - 2: non severe(Unscathed + Light injuries)
-                
-                This choice was made in order to balance the distribution of the target variable.
-                The figures in the menu below shows the data visualization for the target variable.""")
+    This choice was made in order to balance the distribution of the target variable.
+    
+    The figures in the menu below shows the data visualization for the target variable.""")
       # Create a menu to choose which figure to display
     selected_figure = st.selectbox("Choose a figure", ["Accidentes per hour", "Distribution by day and hour", "Vehicles types","Accidents per department","Correlations with target variable"])
     # If a figure was selected, display it
@@ -176,9 +179,16 @@ elif page == "Modelling":
     - 1: severe (classes 2 + 3)
     
    The multi-class classification problem is now reduced to a **binary classification** problem.
+   
+   The modelling part was spit in three models:
+   
+   - Decision Trees (Johanna)
+   - Random Forest (Tiago)
+   - XGBoost (Tobias)
+   
     """)
 
-    selected_figure = st.selectbox("Choose a Model", ["Decision Tree", "Random Forest", "XGBoost"])
+    selected_figure = st.selectbox("Choose a Model to show the results", ["Decision Tree", "Random Forest", "XGBoost"])
     # If a figure was selected, display it
     if selected_figure:
         if selected_figure == "Decision Tree":
