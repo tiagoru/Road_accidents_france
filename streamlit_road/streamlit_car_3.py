@@ -111,17 +111,17 @@ elif page == "DataVizualization":
                 This choice was made in order to balance the distribution of the target variable.
                 The figures in the menu below shows the data visualization for the target variable""")
       # Create a menu to choose which figure to display
-    selected_figure = st.selectbox("Choose a figure", ["Distribution by day and hour", "Accidentes per hour", "Vehicles types","Accidents per department","Correlations with target variable"])
+    selected_figure = st.selectbox("Choose a figure", ["Accidentes per hour", "Distribution by day and hour", "Vehicles types","Accidents per department","Correlations with target variable"])
     # If a figure was selected, display it
     if selected_figure:
-        if selected_figure == "Distribution by day and hour":
+        if selected_figure == "Accidentes per hour":
             st.write("Distribution of severe accidents by weekday and hour")
-            image = Image.open('days_week_heat.png')
-            image_size = (1000, 500)
-            st.image(image, width=image_size[0], caption='')
-        elif selected_figure == "Accidentes per hour":
             image = Image.open('accidents_per_hour.png')
             image_size = (500, 200)
+            st.image(image, width=image_size[0], caption='')
+        elif selected_figure == "Distribution by day and hour":
+            image = Image.open('days_week_heat.png')
+            image_size = (1000, 500)
             st.image(image, width=image_size[0], caption='')
         elif selected_figure == "Vehicles types":
             image = Image.open('distri_vehi.png')
