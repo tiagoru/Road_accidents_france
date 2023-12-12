@@ -50,7 +50,7 @@ elif page == "Data Exploration":
     if selected_figure:
         if selected_figure == "Missing Values":
             st.markdown(""" Figure 1 Show the number of missing values per variables""")
-            image = Image.open('Missing_values.png')
+            image = Image.open('missing_values.png')
             image_size = (1000, 400)
             st.image(image, width=image_size[0], caption='percentage of missing values in the dataframe variables')
         
