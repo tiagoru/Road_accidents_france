@@ -32,7 +32,13 @@ if page == "Project":
         **Aim:** To optimize three classification models with the best overall performances for predicting severe accidents (at least one hospitalized or killed person in an accident versus only slightly or non-injured persons), and then calibrate, evaluate and interpret all three models.
     """)
     st.markdown("""
-        **Authors:** Johanna, Tiago, Tobias
+        **Authors:**
+        
+        Johanna Starkl
+        
+        Tiago Russomanno
+        
+        Tobias Schulze
     """)
 
 elif page == "Data Exploration":
@@ -114,10 +120,12 @@ elif page == "DataVizualization":
     st.markdown(""" 
                 Based on the distribution of the data and the previus analysis, the types of accidents were merged
                 in 2 categories as a target variables for our prediction model:\n
-                1- severe(hospitalized + killed)\n
-                2- non severe(Unscathed + Light injuries)\n
+                
+                - 1: severe(hospitalized + killed)
+                - 2: non severe(Unscathed + Light injuries)
+                
                 This choice was made in order to balance the distribution of the target variable.
-                The figures in the menu below shows the data visualization for the target variable""")
+                The figures in the menu below shows the data visualization for the target variable.""")
       # Create a menu to choose which figure to display
     selected_figure = st.selectbox("Choose a figure", ["Accidentes per hour", "Distribution by day and hour", "Vehicles types","Accidents per department","Correlations with target variable"])
     # If a figure was selected, display it
@@ -145,14 +153,30 @@ elif page == "DataVizualization":
             st.image(image, width=image_size[0], caption='')
 elif page == "Modelling":
     st.title("Accident Modelling")
-    st.markdown("""Our project relates to a classification machine learning problem. It is related to traffic research.
-                 It predicts the severity of injuries by traffic accidents on the basis of several factors associated with the circumstances of the accident,
-                 and the involved persons and vehicles. The identified target variable is grav, 
-                which encodes the severity of the accidents in four classes. 
-                The classes are 1: unscathed, 2: killed, 3: hospitalized, and 4: light injured. 
-                In principle, this is a multi-class classification problem. 
-                During the project, the classes 1+4 and 2+3 were encoded:
-                0: non-severe and 1: severe. This new encode was stored as new target varaible in our dataframe.Finally, the multiclass model was reduced to a binary class model for analysis.""")
+    st.markdown("""
+    The project relates to a to a **classification machine learning problem** in *traffic research*.
+    
+    It predicts the **severity of injuries** by traffic accidents on the basis of several 
+    factors associated with the circumstances of the accident,
+    and the involved persons and vehicles.
+    
+    The identified *target variable* is `grav`, which encodes the severity of the accidents in four classes:
+
+    - 1: unscathed
+    - 2: killed
+    - 3: hospitalized
+    - 4: light injured
+        
+    In principle, this is a **multi-class classification** problem.
+    However, the performance of the multi-class classification modells were not sufficient (not shown). 
+    
+    Therefore the `grav` variable was engineered to a **binary** variable `severe` by merging classes:
+    
+    - 0: non-severe (classes 1 + 4)
+    - 1: severe (classes 2 + 3)
+    
+   The multi-class classification problem is now reduced to a **binary classification** problem.
+    """)
 
     selected_figure = st.selectbox("Choose a Model", ["Decision Tree", "Random Forest", "XGBoost"])
     # If a figure was selected, display it
