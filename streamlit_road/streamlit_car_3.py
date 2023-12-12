@@ -157,6 +157,8 @@ elif page == "DataVizualization":
 elif page == "Modelling":
     st.title("Accident Modelling")
     st.markdown("""
+    #### Target variable engineering
+    
     The project relates to a to a **classification machine learning problem** in *traffic research*.
     
     It predicts the **severity of injuries** by traffic accidents on the basis of several 
@@ -178,14 +180,22 @@ elif page == "Modelling":
     - 0: non-severe (classes 1 + 4)
     - 1: severe (classes 2 + 3)
     
-   The multi-class classification problem is now reduced to a **binary classification** problem.
-   
-   The modelling part was spit in three models:
-   
-   - Decision Trees (Johanna)
+    The multi-class classification problem is now reduced to a **binary classification** problem.
+       
+    #### Models
+  
+   - Decision Tree (Johanna)
    - Random Forest (Tiago)
    - XGBoost (Tobias)
    
+    #### Performance metrics and visualization
+    - Accuracy
+    - Precision
+    - F1 score
+    - Recall
+    - Confusion matrix
+
+ 
     """)
 
     selected_figure = st.selectbox("Choose a Model to show the results", ["Decision Tree", "Random Forest", "XGBoost"])
@@ -205,13 +215,80 @@ elif page == "Modelling":
                          This ensemble approach tends to provide more accurate and robust predictions compared to a single decision tree""")
            #need to include the result of the models and the metrics 
         elif selected_figure == "XGBoost":
-            st.write("XGBoost")
-            st.markdown("""XGBoost was chosen because it is considered as a model with high accuracy, regularization as lasso (L1) and ridge (L2) to prevent overfitting,
-                         it can handle imbalanced datasets, it is flexible in data types, and it includes intrinsic feature importance which enable an easier interpretability of the results. 
-                        XGBoost is considered as an advanced model.""")
-            #need to include the result of the models and the metrics 
+            st.write("### XGBoost")
+            st.markdown("""
+            #### Introduction
+            
+            E**X**treme **G**radient **Boost**ing (XGBoost) is an **advanced** optimized distributed gradient
+            boosting model used for supervising learning problems.
+            
+            #### Characteristics of XGBoost
+            
+            - high accuracy
+            - regularization as lasso (L1) and ridge (L2) to prevent overfitting
+            - enables handling of imbalanced datasets
+            - flexible on data types
+            - build-in feature importance
+            
+            #### Model hyperparameter optimization
+            
+            The XGBoost model was optimized using the Tree-based Parzen Estimator (TPE) combined with a Bayesian
+            Sequential Model Based Optimisation (SMBO) and random search on the parameter grid.
+            
+            This optimization combines random search on the parameter grid with a determination of future points based
+            on prior modelling results.
+            
+            #### Tuning space
+            
+            The **booster** was `gbtree` and the **evaluation metric** was `logloss` (in case of the binary model).
+            
+            The tuning space included several parameters such as `eta`, `reg_alpha`, `reg_lambda` and many others.
+            
+            #### Results and interpretation
+            The result of the optimized model were interpreted using the **classification report**, **accuracy score**,
+            and a **confusion matrix**.
+            
+            ##### Classification report and accuracy score
+            """)
+            image = Image.open('./xgboost_class_report.png')
+            st.image(image, use_column_width = 'auto')
 
- 
+            st.markdown("""
+            
+            - An accuracy score of **0.79** is good for a model with imbalanced, partially sparse and possible inaccurate data.
+            - The precision, recall and f1-score of the model are quite balanced.
+            - Reduction to a binary class model was successfully (accuracy of the the multi-class model was 0.51.
+    
+            ##### Confusion matrix
+            """)
+            image = Image.open('./xgboost_confusion_matrix.png')
+            st.image(image, use_column_width = 'auto')
+
+            st.markdown("""
+            
+            - The confusion matrix shows a good rate of true positive and true negative values.
+            - The results reflect the imbalance of the data.
+            
+            #### Model interpretation using SHAP
+            SHAP (**SH**apley **A**dditive ex**P**lanations) is an approach based on the game theory.
+            It helps to interpret the outcomes of a given machine learning model by a fair allocation
+            of the importance of a feature for the model outcome.
+            
+            The plot of the aggregated SHAP values shows the variables with largest influence on the 
+            model.            
+
+            """)
+
+            image = Image.open('./xgboost_shap_values.png')
+            st.image(image, use_column_width='auto')
+
+            st.markdown("""
+            - 9 varibles ranked high: `catv`, `obsm`, `catu`, `sexe`, `choc`, `manv`, `place`
+            - 2 variables are biased: `num_veh` and `obs` (meaning changed over time)
+            - 29 other features had only a low impact on the model
+
+            """)
+
         #st.markdown("""**Machine Learning Application:** We  used machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
         #            """)
 elif page == "Conclusions":
