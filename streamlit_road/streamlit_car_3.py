@@ -155,15 +155,22 @@ elif page == "DataVizualization":
             # image_size = (1000, 400)
             st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
 elif page == "Modelling":
-    st.title("Accident Modelling")
+    st.title("Modelling project on a glance")
     st.markdown("""
-    #### Target variable engineering
-    
+    #### Goal
     The project relates to a to a **classification machine learning problem** in *traffic research*.
     
     It predicts the **severity of injuries** by traffic accidents on the basis of several 
     factors associated with the circumstances of the accident,
     and the involved persons and vehicles.
+
+    #### Models
+  
+   - Decision Tree (Johanna)
+   - Random Forest (Tiago)
+   - XGBoost (Tobias)
+   
+    #### Target variable engineering
     
     The identified *target variable* is `grav`, which encodes the severity of the accidents in four classes:
 
@@ -173,7 +180,7 @@ elif page == "Modelling":
     - 4: light injured
         
     In principle, this is a **multi-class classification** problem.
-    However, the performance of the multi-class classification modells were not sufficient (not shown). 
+    However, the performance of the multi-class classification modells were not sufficient. 
     
     Therefore the `grav` variable was engineered to a **binary** variable `severe` by merging classes:
     
@@ -182,33 +189,34 @@ elif page == "Modelling":
     
     The multi-class classification problem is now reduced to a **binary classification** problem.
        
-    #### Models
-  
-   - Decision Tree (Johanna)
-   - Random Forest (Tiago)
-   - XGBoost (Tobias)
-   
     #### Performance metrics and visualization
     - Accuracy
     - Precision
     - F1 score
     - Recall
     - Confusion matrix
+    
+    #### Feature importance and dimension reduction
+    - SHAP modelling
+    - principal component analysis (not shown)
 
  
     """)
 elif page == "Models":
     st.title("Models")
-    selected_figure = st.selectbox("Choose a Model to show the results", ["Comparision for target: grav","Decision Tree", "Random Forest", "XGBoost", "Model comparison target: Severe"])
+    selected_figure = st.selectbox("Choose a Model to show the results", ["Model comparison of target: grav", "Decision Tree", "Random Forest", "XGBoost", "Model comparison of target: severe"])
     # If a figure was selected, display it
     if selected_figure:
-        if selected_figure == "Comparision for target: grav":
-            st.write("Modelling comparison for target variable: grav")
+        if selected_figure == "Model comparison of target: grav":
             st.markdown("""
-            In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
-            without further encoding as a multiclass model. 
-            Table 1 lists the performance metrics for the XGBoost and RF models.
-                       
+            #### Model comparison of target variable: grav
+            - First modelling was based on target variable **`grav`**
+            - Variable encodes in **4 classes**, which required **multi-class modelling**
+            - All three models were run.
+            
+            #### Findings
+            Table 1 lists the performance metrics for the XGBoost and Random Forest models.
+
             Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
             """)
 
@@ -216,11 +224,10 @@ elif page == "Models":
             st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
 
             st.markdown("""
-            - Results were not satisfactory
+            - **Performance metrics** were **not satisfactory** and non-conforming
             - Random forest performed best in all metrics accept *Precision*
-            - Decision Tree did not converge (stopped after 6 hours of run)
-            - Class `unscathed` is highly biasing the results (Figure 1)
-                       
+            - Decision Tree did not converge at all (stopped after 6 hours of run)
+            - Class **`unscathed`** is highly **biasing** the results (Figure 1)
             """)
 
             image = Image.open('./xgboost_confusion_matrix_2.png')
@@ -229,15 +236,18 @@ elif page == "Models":
             st.markdown("""
             Figure 1: Confusion matrix of the XGBoost model using the `grav` variable as a target
             
-            Therefore, the target variable `grav` was encoded to a binary variable `severe` and all three models
-            were rerun using `severe` as a target.
+            ##### Conclusions
+            - Target **`grav`** is highly **imbalanced** impacting the **multi-class modelling** results
+            - Requirement of further **feature engineering** to reduce complexity and gaining balance
+            - Encoding of `grav` to a binary variable `severe` enables a **binary classification problem**
             """)
         
         
         
         elif selected_figure == "Decision Tree":
-            st.write("Decision Tree")
-            st.markdown("""Decision Tree Classifier was chosen because of the high explainability and also due to the
+            st.markdown("""
+            ### Decision Tree
+            Decision Tree Classifier was chosen because of the high explainability and also due to the
             fact that the models are relatively simple to set up and train.
             In addition to that, the performance of these models is also very good.
             In some cases, Decision Trees tend to overfit, but this problem can be eliminated with GridSearchCV technique
@@ -246,8 +256,8 @@ elif page == "Models":
             
             
         elif selected_figure == "Random Forest":
-            st.write("Random Forest")
             st.markdown("""
+            ### Random Forest
             #### Introduction
 
             Random Forest is a powerful ensemble learning algorithm used for both classification and regression tasks.
@@ -314,8 +324,8 @@ elif page == "Models":
 
            
         elif selected_figure == "XGBoost":
-            st.write("### XGBoost")
             st.markdown("""
+            ### XGBoost
             #### Introduction
             
             E**X**treme **G**radient **Boost**ing (XGBoost) is an **advanced** optimized distributed gradient
@@ -331,8 +341,8 @@ elif page == "Models":
             
             #### Model hyperparameter optimization
             
-            The XGBoost model was optimized using the Tree-based Parzen Estimator (TPE) combined with a Bayesian
-            Sequential Model Based Optimisation (SMBO) and random search on the parameter grid.
+            The XGBoost model was optimized using the **Tree-based Parzen Estimator** (TPE) combined with a **Bayesian
+            Sequential Model Based Optimisation** (SMBO) and **random search on the parameter grid**.
             
             This optimization combines random search on the parameter grid with a determination of future points based
             on prior modelling results.
@@ -354,27 +364,31 @@ elif page == "Models":
 
             st.markdown("""
             
-            - An accuracy score of **0.79** is good for a model with imbalanced, partially sparse and possible inaccurate data.
-            - The precision, recall and f1-score of the model are quite balanced.
-            - Reduction to a binary class model was successfully (accuracy of the the multi-class model was 0.51.
-    
+            - An **accuracy score of 0.79** is good for a model with imbalanced, partially sparse and possible inaccurate data.
+            - The **precision**, **recall** and **f1-score** of the model are quite **balanced**.
+                
             ##### Confusion matrix
             """)
             image = Image.open('./xgboost_confusion_matrix.png')
             st.image(image, use_column_width = 'auto')
 
             st.markdown("""
+            Figure 1: Confusion matrix of the XGBoost model using the `severe` variable as a target
             
-            - The confusion matrix shows a good rate of true positive and true negative values.
-            - The results reflect the imbalance of the data.
+            - The confusion matrix shows a **good rate** of **true positive** and **true negative** values.
+            - The rates of **false positives** and **false negatives** reflect the overall **imbalance** of the dataset.
+            
+            ##### Conclusions
+            - Reduction to a **binary classification** problem was **successfully** (accuracy of the the multi-class model was 0.51).
+            - Further **predicate feature engineering** could improve the model (for instance by focussing on a curtain
+            type of accident).
             
             #### Model interpretation using SHAP
             SHAP (**SH**apley **A**dditive ex**P**lanations) is an approach based on the game theory.
             It helps to interpret the outcomes of a given machine learning model by a fair allocation
             of the importance of a feature for the model outcome.
             
-            The plot of the aggregated SHAP values shows the variables with largest influence on the 
-            model.            
+            The figure 2 shows the ranking of features largest influence on the modelling aggregated by SHAP values.
 
             """)
 
@@ -382,13 +396,33 @@ elif page == "Models":
             st.image(image, use_column_width='auto')
 
             st.markdown("""
-            - 9 varibles ranked high: `catv`, `obsm`, `catu`, `sexe`, `choc`, `manv`, `place`
-            - 2 variables are biased: `num_veh` and `obs` (meaning changed over time)
-            - 29 other features had only a low impact on the model
+            Figure 2: Ranking of the most important features based on SHAP values
+            
+            Overall,
+            - 9 features ranked high: `catv`, `obsm`, `catu`, `sexe`, `choc`, `manv`, `place`,
+            - 2 variables are biased: `num_veh` and `obs` (meaning changed over time), and
+            - 29 other features had only a low impact on the model.
+            
+            The variables encode:
+
+            - `catv`: vehicle category
+            - `obsm`: mobile object involved
+            - `catu`: category of person (driver, passenger, pedestrian)
+            - `sexe`: (binary) gender of the user
+            - `obs`: fixed object involved (to be used with caution)
+            - `choc`: chock point on the vehicle
+            - `num_veh`: number of involved vehicle (to be used with caution)
+            - `manv`: action prior to the accident (e.g. driving direction)
+            - `place`: place of passenger in vehicle
+            
+            ##### Conclusion
+            The highlighted features are majorly plausible, for example, a person in a van might be less affected by
+            an accident that a pedestrian or cyclist.
+
 
             """)
 
-        elif selected_figure == "Model comparison target: Severe":
+        elif selected_figure == "Model comparison of target: severe":
             st.write("### Model comparison")
 
             #st.markdown("""
@@ -414,19 +448,33 @@ elif page == "Models":
             #st.image(image, use_column_width='auto')
 
             st.markdown("""
+            
+            ### Comments Tobias
+            This needs further improvement (after finalisation of the modelling parts:
+            
+            - Highlighting results of all three models
+            - Highlight the improvement of XGBoost (uses also DT) compared to DT
+            - If time add some common / uncommon features
+            - I removed the table as not required.
+            - I can do and present this part.
                       
             The target variable `grav` was encoded to a binary variable `severe` and all three models
             were rerun using `severe` as a target.
             The modelling result are listed in Table 1.
             
-            Table 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
-        
             """)
-            data = pd.read_csv('./modelling_results_2.csv')
-            st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
+            #Table 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
+        
+            #""")
+            #data = pd.read_csv('./modelling_results_2.csv')
+            #st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
             image = Image.open('./models_metrics_comparison.png')
             st.image(image, use_column_width='auto')
+
+
             st.markdown("""
+            Figure 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are
+            
                      - The performance of all three models increased.
                      - Decision Tree did also converge on the binary model.
                      - The models are quite comparable, while the XGBoost model performed best.
@@ -438,9 +486,12 @@ elif page == "Models":
 elif page == "Conclusions":
     st.title("Conclusion: Road Accidents in France")
     st.markdown("""
-        The models were able to predict the number of accidents. 
-        It is important to note that the XGBoost model had a performance of 83% of true positive predictions for the most severe class compared to the other two machine learning models.
-        This provides a reliable result for the purpose of this project.
+    ### Comments Tobias
+    This needs further improvement. I will do.
+      
+    The models were able to predict the number of accidents. 
+    It is important to note that the XGBoost model had a performance of 83% of true positive predictions for the most severe class compared to the other two machine learning models.
+    This provides a reliable result for the purpose of this project.
         """)
     st.markdown(""" In the future the model could be trained on data about the weather, road conditions, and traffic patterns.
 """)
