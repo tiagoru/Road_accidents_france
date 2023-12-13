@@ -5,7 +5,7 @@ from PIL import Image
 
 # Create the pages
 st.sidebar.title("Navigation Menu")
-page = st.sidebar.selectbox("Page", ["Project", "Data Exploration", "Number of victims", "DataVizualization", "Modelling","Conclusions"])
+page = st.sidebar.selectbox("Page", ["Project", "Data Exploration", "Number of victims", "DataVizualization", "Modelling","Models","Conclusions"])
 
 # Create a list of figures
 # Create a list of figures
@@ -197,11 +197,45 @@ elif page == "Modelling":
 
  
     """)
-
-    selected_figure = st.selectbox("Choose a Model to show the results", ["Decision Tree", "Random Forest", "XGBoost", "Model comparison"])
+elif page == "Models":
+    st.title("Models")
+    selected_figure = st.selectbox("Choose a Model to show the results", ["Comparision for target: grav","Decision Tree", "Random Forest", "XGBoost", "Model comparison target: Severe"])
     # If a figure was selected, display it
     if selected_figure:
-        if selected_figure == "Decision Tree":
+        if selected_figure == "Comparision for target: grav":
+            st.write("Modelling comparison for target variable: grav")
+            st.markdown("""
+            In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
+            without further encoding as a multiclass model. 
+            Table 1 lists the performance metrics for the XGBoost and RF models.
+                       
+            Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
+            """)
+
+            data = pd.read_csv('./modelling_results_1.csv', na_values="NA")
+            st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
+
+            st.markdown("""
+            - Results were not satisfactory
+            - Random forest performed best in all metrics accept *Precision*
+            - Decision Tree did not converge (stopped after 6 hours of run)
+            - Class `unscathed` is highly biasing the results (Figure 1)
+                       
+            """)
+
+            image = Image.open('./xgboost_confusion_matrix_2.png')
+            st.image(image, use_column_width='auto')
+
+            st.markdown("""
+            Figure 1: Confusion matrix of the XGBoost model using the `grav` variable as a target
+            
+            Therefore, the target variable `grav` was encoded to a binary variable `severe` and all three models
+            were rerun using `severe` as a target.
+            """)
+        
+        
+        
+        elif selected_figure == "Decision Tree":
             st.write("Decision Tree")
             st.markdown("""Decision Tree Classifier was chosen because of the high explainability and also due to the
             fact that the models are relatively simple to set up and train.
@@ -213,9 +247,72 @@ elif page == "Modelling":
             
         elif selected_figure == "Random Forest":
             st.write("Random Forest")
-            st.markdown("""Random Forest was chosen because it combines the predictions of multiple individual decision rees to make a final prediction.
-                         This ensemble approach tends to provide more accurate and robust predictions compared to a single decision tree""")
-           #need to include the result of the models and the metrics 
+            st.markdown("""
+            #### Introduction
+
+            Random Forest is a powerful ensemble learning algorithm used for both classification and regression tasks.
+            It operates by constructing a multitude of decision trees during training and outputs the mode (classification) or mean prediction (regression) of the individual trees.
+
+            #### Characteristics of Random Forest
+
+            - High accuracy
+            - Robust to overfitting
+            - Handles imbalanced datasets well
+            - Accommodates various data types
+            - Provides built-in feature importance
+
+            #### Model Hyperparameter Optimization
+
+            The Random Forest model underwent hyperparameter optimization using techniques like grid search and random search. 
+            The goal was to find the combination of hyperparameters that maximizes the model's performance.
+
+            #### Tuning Space
+
+            The Random Forest hyperparameter tuning involved exploring parameters such as the number of trees (`n_estimators`), the maximum depth of the trees (`max_depth`),
+            and the minimum number of samples required to split an internal node (`min_samples_split`).
+
+            #### Results and Interpretation
+
+            The performance of the optimized Random Forest model was assessed using key metrics such as the **classification report**, **accuracy score**, and a **confusion matrix**.
+            These metrics provide insights into the model's precision, recall, F1-score, accuracy, and how well it performed on different classes. 
+            The confusion matrix offers a detailed view of the model's true positive, true negative, false positive, and false negative predictions.
+
+            ##### Classification report and accuracy score
+            """)
+            image = Image.open('./model_reportRF.png')
+            st.image(image, use_column_width = 'auto')
+
+
+            st.markdown("""
+            
+            - In summary, the Random Forest model demonstrates good overall performance with a decent accuracy of 77.7%.
+            It exhibits balanced precision and recall for both classes, suggesting that it is effective in making accurate predictions across different outcomes
+            
+    
+            ##### Confusion matrix
+            """)
+            image = Image.open('./confusionRF.png')
+            st.image(image, use_column_width = 'auto')
+
+            st.markdown("""
+            
+            - The confusion matrix shows a good rate of true positive and true negative values.
+            - the model is better at identifying instances of the "severe" class,
+            but there is room for improvement in reducing false positives for the "severe-fatal" class.
+
+            ##### Cross-validation 
+            """)
+            image = Image.open('./cross_RF.png')
+            st.image(image, use_column_width = 'auto')
+
+            st.markdown("""
+            
+            - The F1 scores for each fold indicate the model's performance on different subsets of the training data.
+            - The values range from approximately 0.7847 to 0.7931, showing consistency in the model's ability to balance precision and recall across folds.
+            - Stable and good performance based on the F1 macro scores obtained through cross-validations""")
+
+
+           
         elif selected_figure == "XGBoost":
             st.write("### XGBoost")
             st.markdown("""
@@ -291,44 +388,44 @@ elif page == "Modelling":
 
             """)
 
-        elif selected_figure == "Model comparison":
+        elif selected_figure == "Model comparison target: Severe":
             st.write("### Model comparison")
 
-            st.markdown("""
-            In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
-            without further encoding as a multiclass model. 
-            Table 1 lists the performance metrics for the XGBoost and RF models.
+            #st.markdown("""
+            #In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
+            #without further encoding as a multiclass model. 
+            #Table 1 lists the performance metrics for the XGBoost and RF models.
                        
-            Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
-            """)
+            #Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
+            #""")
 
-            data = pd.read_csv('./modelling_results_1.csv', na_values="NA")
-            st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
+            #data = pd.read_csv('./modelling_results_1.csv', na_values="NA")
+            #st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
 
-            st.markdown("""
-            - Results were not satisfactory
-            - Random forest performed best in all metrics accept *Precision*
-            - Decision Tree did not converge (stopped after 6 hours of run)
-            - Class `unscathed` is highly biasing the results (Figure 1)
+            #st.markdown("""
+            #- Results were not satisfactory
+            #- Random forest performed best in all metrics accept *Precision*
+            #- Decision Tree did not converge (stopped after 6 hours of run)
+            #- Class `unscathed` is highly biasing the results (Figure 1)
                        
-            """)
+            #""")
 
-            image = Image.open('./xgboost_confusion_matrix_2.png')
-            st.image(image, use_column_width='auto')
+            #image = Image.open('./xgboost_confusion_matrix_2.png')
+            #st.image(image, use_column_width='auto')
 
             st.markdown("""
-            Figure 1: Confusion matrix of the XGBoost model using the `grav` variable as a target
-            
-            Therefore, the target variable `grav` was encoded to a binary variable `severe` and all three models
+                      
+            The target variable `grav` was encoded to a binary variable `severe` and all three models
             were rerun using `severe` as a target.
-            The modelling result are listed in Table 2.
+            The modelling result are listed in Table 1.
             
-            Table 2: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
+            Table 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
         
             """)
             data = pd.read_csv('./modelling_results_2.csv')
             st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
-
+            image = Image.open('./models_metrics_comparison.png')
+            st.image(image, use_column_width='auto')
             st.markdown("""
                      - The performance of all three models increased.
                      - Decision Tree did also converge on the binary model.
