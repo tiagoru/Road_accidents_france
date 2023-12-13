@@ -8,3 +8,8 @@
 *.csv filter=lfs diff=lfs merge=lfs -text
 *.pkl filter=lfs diff=lfs merge=lfs -text
 *.gz filter=lfs diff=lfs merge=lfs -text
+*.PNG filter=lfs diff=lfs merge=lfs -text
+*.JPG filter=lfs diff=lfs merge=lfs -text
+*.TIF filter=lfs diff=lfs merge=lfs -text
+*.TIFF filter=lfs diff=lfs merge=lfs -text
+*.SVG filter=lfs diff=lfs merge=lfs -text
