@@ -312,24 +312,7 @@ elif page == "Models":
             
             The diagonal elements of the matrix show that **67%** of the **"non-severe"** class and **82%** of the **"severe"** class are predicted correctly. In the first stage, the model is pretty good. In a second stage, consideration could be given to how the model should be adapted in order to deliver even better results. 
             
-            #### PCA 
-            
-            PCA was applied to see if due to the reduction of dimensionality the accuracy of the Decision Tree could be improved. 
-            
-            
-            
-            ##### Classification report and accuracy score of Decision Tree Model with PCA
-            
-            """)
-            image = Image.open('./report_DT_PCA.png')
-            st.image(image, use_column_width = 'auto')
-
           
-            
-            st.markdown("""
-            
-            With PCA the Decision Tree Model has an accuracy of **62%**. Compared to the original model, there is no improvement.  
-
             """)
           
             
