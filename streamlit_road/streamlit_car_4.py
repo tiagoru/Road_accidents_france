@@ -150,6 +150,9 @@ elif page == "DataVizualization":
             image = Image.open('acc_dep_top20.png')
             # image_size = (1000, 500)
             st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
+            image = Image.open('map_france.png')
+            # image_size = (1000, 500)
+            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
         elif selected_figure == "Correlations with target variable":
             image = Image.open('correlation.png')
             # image_size = (1000, 400)
