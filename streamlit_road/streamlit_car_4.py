@@ -549,11 +549,37 @@ elif page == "Conclusions":
 
     st.image(image, use_column_width='auto')
 
+    st.markdown(
+        #
+        '<div style="font-size:20pt;">'
+        '<div style="text-align: center;">'
+        '<div style="color: red;">'
+        'Thank you for your attention!'
+        '</div>'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True)
+
+    st.markdown(
+        #
+        '<div style="font-size:20pt;">'
+        '<div style="text-align: center;">'
+        '<div style="color: red;">'
+        'Seasonal Greetings and Happy New Year!'
+        '</div>'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True)
+
+    st.markdown("""
+    #
+    """)
+
+    image = Image.open('good_bye.png')
+
+    st.image(image, use_column_width='auto')
+
     st.markdown("""
     _Source: Generated on https://myedit.online_
-    
-    #
-    ### :red[Thanks so much for your attention and Merry Christmas!]
-    """
+ """
    )
-
