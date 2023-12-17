@@ -17,8 +17,11 @@ figures = [
 
 if page == "Project":
     image = Image.open('france_road.png')
+    st.image(image, caption='', use_column_width = 'auto')
+    st.markdown("""
+    _Source: Generated on https://myedit.online_
+    """)
 
-    st.image(image, caption='')
     st.title("Project: Car Accidents in France")
     st.markdown("""
         According to the National Road Safety Observatory (ONSR) in France, in the year 2021,
@@ -547,6 +550,8 @@ elif page == "Conclusions":
     st.image(image, use_column_width='auto')
 
     st.markdown("""
+    _Source: Generated on https://myedit.online_
+    
     #
     ### :red[Thanks so much for your attention and Merry Christmas!]
     """
