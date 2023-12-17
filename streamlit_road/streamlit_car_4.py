@@ -487,79 +487,68 @@ elif page == "Models":
             """)
 
         elif selected_figure == "Model comparison of target: severe":
-            st.write("### Model comparison")
-
-            #st.markdown("""
-            #In the first modelling step, we tried to predict the target variable `grav` in a multi-class model
-            #without further encoding as a multiclass model. 
-            #Table 1 lists the performance metrics for the XGBoost and RF models.
-                       
-            #Table 1: Performance metrics of the XGBoost and RF models using the `grav` variable as a target (best values are high-lighted)
-            #""")
-
-            #data = pd.read_csv('./modelling_results_1.csv', na_values="NA")
-            #st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
-
-            #st.markdown("""
-            #- Results were not satisfactory
-            #- Random forest performed best in all metrics accept *Precision*
-            #- Decision Tree did not converge (stopped after 6 hours of run)
-            #- Class `unscathed` is highly biasing the results (Figure 1)
-                       
-            #""")
-
-            #image = Image.open('./xgboost_confusion_matrix_2.png')
-            #st.image(image, use_column_width='auto')
-
             st.markdown("""
-            
-            ### Comments Tobias
-            This needs further improvement (after finalisation of the modelling parts:
-            
-            - Highlighting results of all three models
-            - Highlight the improvement of XGBoost (uses also DT) compared to DT
-            - If time add some common / uncommon features
-            - I removed the table as not required.
-            - I can do and present this part.
-                      
-            The target variable `grav` was encoded to a binary variable `severe` and all three models
-            were rerun using `severe` as a target.
-            The modelling result are listed in Table 1.
+            #### Model comparison of target variable: severe
+            - **Improved** modelling was based on target variable **`severe`**
+            - Variable encodes in two classes enabling **binary classification** approaches
+            - All three models were run.
+                        
+            #### Findings
+         
+            The comparison of thhe modelling result are listed in Figure 1.
             
             """)
-            #Table 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are high-lighted)
-        
-            #""")
-            #data = pd.read_csv('./modelling_results_2.csv')
-            #st.dataframe(data.style.highlight_max(axis=0), hide_index = True, use_container_width = True)
             image = Image.open('./models_metrics_comparison.png')
             st.image(image, use_column_width='auto')
 
-
             st.markdown("""
-            Figure 1: Performance metrics of the XGBoost, RF and Decision Tree models using the `severe` variable as a target (best values are
+            Figure 1: Performance metrics of the XGBoost, Random Forest and Decision Tree models using the `severe` variable 
+            as a target
             
-                     - The performance of all three models increased.
-                     - Decision Tree did also converge on the binary model.
-                     - The models are quite comparable, while the XGBoost model performed best.
+            - The performance of **all** three models **increased**.
+            - The models ranked with a **good accuracy** in the order **XGBoost**, **Random Forest**, **Decision Tree**
+            
+            #### Interpretability
+            Table 1 lists the common important features of all three models
+            
+            Table 1: Important common features supporting the models (highlighted: features not important in all models)
+           """)
+            data = pd.read_csv('./feature_importance.csv', na_values="NA")
 
-                     """)
+            def highlight_no(s):
+                return ['background-color: yellow' if v == 'no' else '' for v in s]
+
+            data_styled = data.style.apply(highlight_no)
+
+            st.dataframe(data_styled, hide_index=True, use_container_width=True)
+            st.markdown("""
+            
+            - The feature importance and SHAP modelling unravelled **7 common** and **2 not in common** features
+            - The **most important** feature in all models was **`catv`** (vehicle category)
+      
+  
+            """)
 
         #st.markdown("""**Machine Learning Application:** We  used machine learning to predict the likelihood of an accident occurring. This would be a valuable tool for road safety agencies, as it would allow them to focus their resources on areas where accidents are most likely to happen.
         #            """)
 elif page == "Conclusions":
-    st.title("Conclusion: Road Accidents in France")
+    st.title("Final Conclusions")
     st.markdown("""
-    ### Comments Tobias
-    This needs further improvement. I will do.
-      
-    The models were able to predict the number of accidents. 
-    It is important to note that the XGBoost model had a performance of 83% of true positive predictions for the most severe class compared to the other two machine learning models.
-    This provides a reliable result for the purpose of this project.
+    - **All models converged** and provide a classification of the accident severity with a **good performance**  
+    - **Feature engineering** reduced complexity and helped to improve the modelling
+    - **XGBoost** performed best with **83%** of true positive predictions of the **severe** class
+    - **Feature importance** unravelled **plausible** variables supporting the models
+    - Further engineering of **predictive variables** may help to simplify the models
+    
         """)
-    st.markdown(""" In the future the model could be trained on data about the weather, road conditions, and traffic patterns.
-""")
+
     image = Image.open('future_road.png')
 
-    st.image(image, caption='')
+    st.image(image, use_column_width='auto')
+
+    st.markdown("""
+    #
+    ### :red[Thanks so much for your attention and Merry Christmas!]
+    """
+   )
 
