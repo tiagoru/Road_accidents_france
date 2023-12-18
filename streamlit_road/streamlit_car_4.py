@@ -25,9 +25,11 @@ if page == "Project":
     st.title("Project: Car Accidents in France")
     st.markdown("""
         According to the National Road Safety Observatory (ONSR) in France, in the year 2021,
-         there were 560.666 road accidents in France. This represents a 4.1% increase from the number of accidents recorded in 2020.
-         Of these accidents, 100.086 occurred in the metropolitan area of France, representing 18.3% of all accidents in the country. The number of fatalities in 2021 was 3.336, while the number of serious injuries was 74.414.
-        Based on that we want to predict the number of severe accidents (Hospitalized and Deaths).
+        3,219 people were killed on French roads, in mainland France and overseas. 
+        This figure, 8% lower than in 2019, is historically low (excluding the atypical year 2020).
+        The upturn in travel in 2021 was tempered by a period of confinement in April, curfews throughout the first half of the year,
+        and several periods when working from home was strongly recommended.
+
         Data used in this project was from 2005 to 2018 in order to predict the values for 2019 to 2020* """)
     link1 = "https://datascientest.com/"
     st.markdown(f' This is the final project for the DATA SCIENCE course at "[datascientest]({link1})."')
