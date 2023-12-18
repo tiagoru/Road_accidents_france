@@ -153,9 +153,25 @@ elif page == "DataVizualization":
             image = Image.open('acc_dep_top20.png')
             # image_size = (1000, 500)
             st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
-            image = Image.open('map_france.png')
+            #image = Image.open('map_france.png')
             # image_size = (1000, 500)
-            st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
+            #st.image(image, use_column_width = 'auto')#width=image_size[0], caption='')
+            def main():
+                st.title("Accidents per department")
+
+                # Path to the SVG file
+                svg_path = "france_map8.svg"
+    
+
+                # Read the content of the SVG file
+                with open(svg_path, "r") as f:
+                     svg_content = f.read()
+
+                # Display SVG content using HTML with adjusted size
+                st.markdown(f'<div style="width: 1000px; height: 800px;">{svg_content}</div>', unsafe_allow_html=True)
+
+            if __name__ == "__main__":
+                    main()
         elif selected_figure == "Correlations with target variable":
             image = Image.open('correlation.png')
             # image_size = (1000, 400)
